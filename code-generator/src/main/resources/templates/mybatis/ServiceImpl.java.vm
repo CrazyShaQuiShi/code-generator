@@ -1,0 +1,68 @@
+package ${package}.${moduleName}.service.impl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import com.yqtsoft.utils.utils.PageUtils;
+import java.util.Map;
+import com.yqtsoft.utils.utils.PageUtils;
+import com.yqtsoft.utils.utils.Query;
+import ${package}.${moduleName}.dto.input.${className}QueryInput;
+import ${package}.${moduleName}.mapper.I${className}Mapper;
+import ${package}.${moduleName}.entity.${className};
+import ${package}.${moduleName}.service.I${className}Service;
+
+@Service("i${className}Service")
+public class ${className}ServiceImpl extends ServiceImpl<I${className}Mapper, ${className}>  implements I${className}Service {
+    @Autowired
+    private I${className}Mapper i${className}Mapper;
+
+    @Override
+    public ${className} selectById(${pk.attrType} ${pk.attrname}) {
+        return i${className}Mapper.selectById(${pk.attrname});
+    }
+
+    @Override
+    public PageUtils queryPage(${className}QueryInput queryParam) {
+        IPage<${className}> page = this.page(
+                new Query<${className}>().getPage(queryParam.getPageNumber(), queryParam.getPageSize(), queryParam.getSort(), queryParam.isAsc()),
+                new QueryWrapper<${className}>()
+                        .like(StringUtils.isNotBlank("keyName"), "_column", "keyName"));
+        return new PageUtils(page);
+    }
+
+    @Override
+    public List<${className}> queryList(Map<String, Object> map) {
+        return i${className}Mapper.queryList(map);
+    }
+
+    @Override
+    public int queryTotal(Map<String, Object> map) {
+        return i${className}Mapper.queryTotal(map);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Throwable.class)
+    @Override
+    public ${className} add(${className} ${classname}) {
+        i${className}Mapper.insert(${classname});
+        return ${classname};
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Throwable.class)
+    @Override
+    public void update(${className} ${classname}) {
+        i${className}Mapper.updateById(${classname});
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Throwable.class)
+    @Override
+    public void delete(${pk.attrType} ${pk.attrname}) {
+        i${className}Mapper.deleteById(${pk.attrname});
+    }
+
+}

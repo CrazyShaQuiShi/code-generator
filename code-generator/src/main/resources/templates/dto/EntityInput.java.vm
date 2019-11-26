@@ -1,0 +1,35 @@
+package ${package}.${moduleName}.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
+import io.swagger.annotations.ApiModelProperty;
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+
+@Getter
+@Setter
+public class ${className}Input implements Serializable {
+	private static final long serialVersionUID = 1L;
+#foreach ($column in $columns)
+#if(${pk.attrname}!=$column.attrname)
+#if(${column.attrname} != ${version} && ${column.attrname} != ${createdBy} && ${column.attrname} !=${lastModifiedBy}  && ${column.attrname} != ${lastModifiedTime} && ${column.attrname} != ${createdTime})
+	@ApiModelProperty(value = "${column.comments}")
+	private $column.attrType $column.attrname;
+#end
+#end
+#end
+
+}

@@ -1,0 +1,46 @@
+package ${package}.${moduleName}.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
+import io.swagger.annotations.ApiModelProperty;
+import com.yqtsoft.utils.entity.SimpleQueryParam;
+import com.yqtsoft.utils.validator.annotation.DateTime;
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+
+@Getter
+@Setter
+public class ${className}QueryInput extends SimpleQueryParam implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@ApiModelProperty(value = "开始时间")
+	@DateTime(message = "日期格式不正确,正确格式为yyyy-MM-dd")
+	private String startDate;
+
+	@ApiModelProperty(value = "结束时间")
+	@DateTime(message = "日期格式不正确,正确格式为yyyy-MM-dd")
+	private String endDate;
+
+#foreach ($column in $columns)
+#if(${pk.attrname}!=$column.attrname)
+#if(${column.attrname} != ${version} && ${column.attrname} != ${createdBy} && ${column.attrname} !=${lastModifiedBy}  && ${column.attrname} != ${lastModifiedTime} && ${column.attrname} != ${createdTime})
+	@ApiModelProperty(value = "${column.comments}")
+	private $column.attrType $column.attrname;
+#end
+#end
+#end
+
+}

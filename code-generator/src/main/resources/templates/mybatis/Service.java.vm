@@ -1,0 +1,65 @@
+package ${package}.${moduleName}.service;
+import ${package}.${moduleName}.entity.${className};
+import ${package}.${moduleName}.dto.input.${className}QueryInput;
+import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.yqtsoft.utils.utils.PageUtils;
+import java.util.Map;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface I${className}Service  extends IService<${className}>  {
+    /**
+    * 根据id查询
+	* @return
+	*/
+    ${className} selectById(${pk.attrType} ${pk.attrname});
+
+    /**
+     * 分页查询
+     * @param queryParam
+     * @return
+     */
+    PageUtils queryPage(${className}QueryInput queryParam);
+
+    /**
+    * 多条件查询
+	* @param map
+	* @return list
+	*/
+    List<${className}> queryList(Map<String, Object> map);
+
+
+
+    /**
+    * 多条件统计条数
+    * @param map
+    * @return int
+    */
+    int queryTotal(Map<String, Object> map);
+
+    /**
+     * 保存
+     * @param ${classname}
+     * return ${className}
+     */
+    ${className}  add(${className} ${classname});
+
+    /**
+     * 更新
+     * @param ${classname}
+     */
+    void update(${className} ${classname});
+
+    /**
+    * 删除
+	*/
+    void delete(${pk.attrType} ${pk.attrname});
+
+
+}

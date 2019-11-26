@@ -1,0 +1,29 @@
+package ${package}.${moduleName}.mapper;
+import ${package}.${moduleName}.entity.${className};
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Repository
+@Mapper
+public interface I${className}Mapper extends BaseMapper<${className}> {
+    /**
+     *  列表查询
+     * @param params
+     * @return
+     */
+    List<${className}> queryList(Map<String,Object> params);
+    /**
+     * 统计数据
+     * @param params
+     */
+    int queryTotal(Map<String, Object> params);
+}
