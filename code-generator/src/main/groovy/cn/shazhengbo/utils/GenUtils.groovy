@@ -44,17 +44,17 @@ class GenUtils {
         }
     }
     /**
-     *  根据查询出的表列表和单元信息
+     * 逆向生成代码
+     * @param table
+     * @param columns
+     * @param config 配置信息
      */
-    static void generatorCode(Map<String, String> table,
-                              List<Map<String, String>> columns) {
-        //配置信息
-        Configuration config = getConfig();
+    static void generatorCode(Map<String, String> table, List<Map<String, String>> columns, Configuration config, List<String> templates) {
         boolean hasBigDecimal = false;
         //表信息
-        TableEntity tableEntity = new TableEntity(tableName: table.get("tableName"), comments: table.get("tableComment"));
+        TableEntity tableEntity = new TableEntity(tableName: table.get("tableName"), comments: table.get("tableComment"))
         //表名转换成Java类名
-        String className = tableToJava(tableEntity.tableName, config.getString("tablePrefix"));
+        String className = tableToJava(tableEntity.tableName, config.getString("tablePrefix"))
         tableEntity.setClassName(className)
         tableEntity.setClassname(StringUtils.uncapitalize(className))
         /**
@@ -66,12 +66,12 @@ class GenUtils {
                     columnName: column.get("columnName"),
                     dataType: column.get("dataType"),
                     comments: column.get("columnComment"),
-                    extra: column.get("extra"));
+                    extra: column.get("extra"))
             /**
              * 列名转换成Java属性名
              */
-            String attrName = columnToJava(columnEntity.getColumnName());
-            columnEntity.setAttrName(attrName);
+            String attrName = columnToJava(columnEntity.getColumnName())
+            columnEntity.setAttrName(attrName)
             columnEntity.setAttrname(StringUtils.uncapitalize(attrName));
             /**
              * 列的数据类型，转换成Java类型
@@ -128,17 +128,16 @@ class GenUtils {
         map.put("author", config.getString("author"));
         map.put("email", config.getString("email"));
         map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN))
-        map.put("version","version")
-        map.put("createdBy","createdBy")
-        map.put("createdTime","createdTime")
-        map.put("lastModifiedBy","lastModifiedBy")
-        map.put("lastModifiedTime","lastModifiedTime")
+        map.put("version", "version")
+        map.put("createdBy", "createdBy")
+        map.put("createdTime", "createdTime")
+        map.put("lastModifiedBy", "lastModifiedBy")
+        map.put("lastModifiedTime", "lastModifiedTime")
         VelocityContext context = new VelocityContext(map);
         def disk = config.getString("disk")
         /**
-         * 获取模板列表
+         * 解析渲染模板
          */
-        List<String> templates = getTemplates();
         for (template in templates) {
             /**
              * 渲染模板
@@ -160,6 +159,37 @@ class GenUtils {
             }
         }
     }
+    /**
+     *  根据查询出的表列表和单元信息
+     */
+    static void generatorCode(Map<String, String> table,
+                              List<Map<String, String>> columns) {
+        /**
+         * 配置信息
+         */
+        Configuration config = getConfig();
+
+        /**
+         * 默认模板列表
+         */
+        List<String> templates = getTemplates();
+        generatorCode(table, columns, config, templates);
+    }
+    /**
+     * 使用默认模板
+     * @param table 表列表
+     * @param columns 列信息
+     * @param configuration 配置信息
+     */
+    static void generatorCode(Map<String, String> table,
+                              List<Map<String, String>> columns, Configuration configuration) {
+        /**
+         * 默认模板列表
+         */
+        List<String> templates = getTemplates();
+        generatorCode(table, columns, configuration, templates);
+    }
+
     /**
      * 写文件
      * @param path
@@ -285,10 +315,10 @@ class GenUtils {
             return "main" + File.separator + "resources" + File.separator + "views" + File.separator + "modules" + File.separator + moduleName + File.separator + "js" + File.separator
         }
         if (template.contains("QueryInput.java.vm")) {
-            return packagePath + "dto"+ File.separator + "input"  + File.separator
+            return packagePath + "dto" + File.separator + "input" + File.separator
         }
         if (template.contains("EntityInput.java.vm")) {
-            return packagePath + "dto"+ File.separator + "input"  + File.separator
+            return packagePath + "dto" + File.separator + "input" + File.separator
         }
         return null;
     }

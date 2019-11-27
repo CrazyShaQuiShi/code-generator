@@ -11,12 +11,12 @@ interface TableMapper {
      * @param tableName
      * @return
      */
-    Map<String, Object> queryTable(String tableName);
+    Map<String, String> queryTable(String tableName);
 
     /**
      *  查询表结构
      * @param tableName
      * @return
      */
-    List<Map<String, Object>> queryColumns(String tableName);
+    List<Map<String, String>> queryColumns(String tableName);
 }
